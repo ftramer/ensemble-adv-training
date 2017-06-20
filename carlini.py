@@ -139,7 +139,7 @@ class CarliniLi:
                     #    print(step, sess.run((loss,loss1,loss2),feed_dict=feed_dict))
 
                     # perform the update step
-                    _, works, linf = sess.run([train, loss, loss2], feed_dict=feed_dict)
+                    _, works, linf_slack = sess.run([train, loss, loss2], feed_dict=feed_dict)
 
                     # it worked
                     if works < .0001*CONST and (self.ABORT_EARLY or step == CONST-1):
@@ -151,7 +151,7 @@ class CarliniLi:
 
                 # we didn't succeed, increase constant and try again
 
-                if linf >= 0.1 * self.EPS:
+                if linf_slack >= 0.1 * self.EPS:
                     # perturbation is too large
                     if prev_scores is None:
                         return prev_scores
